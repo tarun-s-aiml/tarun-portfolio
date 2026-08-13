@@ -22,9 +22,7 @@ export const skills = [
     category: "Programming Languages",
     items: [
       { name: "Python", level: 90, icon: "Code2", description: "Primary language for Data Science, AI/ML models & scripting" },
-      { name: "Java", level: 82, icon: "Coffee", description: "Object-Oriented Programming, Data Structures & Backend APIs" },
       { name: "SQL", level: 85, icon: "Database", description: "Relational Database queries, schema design & data management" },
-      { name: "JavaScript / Web Basics", level: 75, icon: "Globe", description: "Browser extension scripting, UI integration & Web APIs" }
     ]
   },
   {
