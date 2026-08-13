@@ -132,22 +132,77 @@ export const certifications = [
 
 export const achievements = [
   {
-    title: "NCC 'A' Certificate Holder",
-    organization: "National Cadet Corps (NCC)",
-    description: "Successfully earned the prestigious NCC 'A' Certificate demonstrating rigorous physical endurance, military drill precision, team discipline, and national service leadership.",
-    badge: "National Defense Leadership"
+    id: "nisvaarth-2-5k-run",
+    title: "NISVAARTH-2 5K RUN Certificate of Participation",
+    issuer: "Dept. of ECE, K.S. Institute of Technology",
+    association: "IEEE, IEEE Bangalore Section, WIE & Gleneagles BGS Hospital",
+    date: "15th June 2024",
+    badge: "5K Run & Fitness",
+    image: "/achievements/nisvaarth-2-5k-run.jpg",
+    recipient: "TARUN.S",
+    certId: "KSGI-5K-2024-ECE",
+    description: "Certificate of Participation awarded to Tarun S for participating in the NISVAARTH-2 5K RUN organized by the Department of Electronics & Communication Engineering at K.S. Institute of Technology in association with IEEE Bangalore Section, WIE, and Gleneagles BGS Hospital.",
+    signatories: ["Mr. B.R. Santhosh Kumar (IEEE Branch Chair)", "Dr. P. N. Sudha (Professor & Head ECE Dept)", "Dr. Dilip Kumar K. (Principal & Director)"],
+    tags: ["5K Run", "ECE KSIT", "IEEE", "WIE"]
   },
   {
-    title: "Active Member of NSS (National Service Scheme)",
-    organization: "National Service Scheme (NSS)",
-    description: "Engaged in community development projects, youth leadership forums, environmental sustainability initiatives, and social upliftment drives.",
-    badge: "Community Leadership"
+    id: "ncc-a-certificate",
+    title: "NCC 'A' Certificate (National Cadet Corps)",
+    issuer: "Ministry of Defence, Government of India",
+    association: "2 KAR (T) AIR SQN NCC | Karnataka & Goa Directorate, Bangalore",
+    date: "24 Feb 2020",
+    badge: "Grade 'B' • Air Wing",
+    image: "/achievements/ncc-a-certificate.jpg",
+    recipient: "CDT TARUN.S",
+    certId: "KAR A Cert AIR 2020 BB-4510",
+    regNo: "KA/19/JD/F/121882",
+    dob: "16-Jul-2005",
+    description: "National Cadet Corps Certificate 'A' awarded to Cadet Tarun.S of 2 KAR (T) AIR SQN NCC under the authority of Ministry of Defence, Government of India, passing the examination held in 2020 with Grade 'B'.",
+    signatories: ["Addl. Director General, National Cadet Corps", "Dy. Director General, National Cadet Corps"],
+    tags: ["NCC Air Wing", "Grade B", "Ministry of Defence", "Leadership"]
   },
   {
-    title: "Attended Multiple Camps & Leadership Activities",
-    organization: "Youth & Cadet Leadership Forums",
-    description: "Selected to participate in intensive multi-day leadership, outdoor crisis management, and team-building training camps.",
-    badge: "Leadership & Teamwork"
+    id: "anti-drugs-awareness",
+    title: "Anti-Drugs Awareness Programme Certificate",
+    issuer: "Smitam NGO",
+    association: "Community Safety & Drug-Free Youth Initiative",
+    date: "30th November 2024",
+    badge: "Social Welfare & Drive",
+    image: "/achievements/anti-drugs-awareness.jpg",
+    recipient: "TARUN.S",
+    certId: "SMITAM-ADAP-2024",
+    description: "Certificate of Participation presented to Tarun.S by Smitam in recognition of participation and commitment towards creating a drug-free community during the Anti-Drugs Awareness Programme held on 30th November 2024.",
+    signatories: ["Meghana Murthy (Founder & President, Smitam)"],
+    tags: ["Social Service", "Smitam", "Drug-Free Drive", "Community"]
+  },
+  {
+    id: "nss-swachhata-hi-seva",
+    title: "NSS Swachhata hi Seva 2024 Certificate",
+    issuer: "NSS Cell, K.S. Institute of Technology",
+    association: "MYBharat Dept. of Youth Affairs, Ministry of Youth Affairs & Sports, Govt. of India",
+    date: "27th September 2024",
+    badge: "NSS Service & Swachhata",
+    image: "/achievements/nss-swachhata-hi-seva.jpg",
+    recipient: "Tarun S (USN: 1KS23AI060, AIML Dept)",
+    certId: "NSS-SHS-2024-KSIT",
+    usn: "1KS23AI060",
+    description: "National Service Scheme (NSS) Certificate of Participation awarded to Tarun S (USN: 1KS23AI060, AIML Dept) for participating in Swachhata hi Seva 2024 organized by NSS Cell, KSIT in association with MYBharat Dept. of Youth Affairs, Ministry of Youth Affairs and Sports, Govt. of India.",
+    signatories: ["Mr Naveen.V (NSS PO)", "Dr. Dilip Kumar K. (Principal / Director)"],
+    tags: ["NSS", "MYBharat", "Youth Affairs", "Govt of India"]
+  },
+  {
+    id: "nisvaarth-marathon-2k25",
+    title: "NISVAARTH MARATHON 2K25 Certificate of Participation",
+    issuer: "Dept. of ECE, K.S. Institute of Technology",
+    association: "IEEE KSIT SB, WIE and SPS",
+    date: "5th April 2025",
+    badge: "Marathon & Community",
+    image: "/achievements/nisvaarth-marathon-2k25.jpg",
+    recipient: "TARUN.S (4th Sem AIML)",
+    certId: "KSGI-MARATHON-2K25",
+    description: "Certificate of Participation awarded to Tarun S (4th Sem AIML, KSIT) for participating in the NISVAARTH MARATHON 2K25 organized by the Department of Electronics and Communication Engineering, KSIT, in association with IEEE KSIT SB, WIE, and SPS.",
+    signatories: ["B. R. Santhosh Kumar (Chair IEEE KSIT SB)", "Dr. P. N. Sudha (Chair WIE, IEEE KSIT SB)", "Dr. Dilip Kumar K. (Principal / Director)"],
+    tags: ["Marathon 2K25", "IEEE KSIT", "WIE", "SPS"]
   }
 ];
 
