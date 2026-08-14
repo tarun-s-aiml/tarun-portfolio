@@ -141,7 +141,6 @@ ACHIEVEMENTS & LEADERSHIP
               display: "block",
               width: "100%",
               height: "auto",
-              maxHeight: "70vh",
               objectFit: "contain",
             }}
           />
