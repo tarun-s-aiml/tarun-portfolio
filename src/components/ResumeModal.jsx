@@ -131,111 +131,13 @@ ACHIEVEMENTS & LEADERSHIP
         </div>
 
         {/* Formatted Resume Body Container */}
-        <div className="p-6 sm:p-10 overflow-y-auto print:overflow-visible bg-slate-950 text-slate-100 font-sans space-y-8 text-left print:bg-white print:text-black print:p-0">
-
-          {/* Header */}
-          <div className="text-center border-b border-slate-800 pb-6 print:border-black">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase print:text-black">
-              {personalInfo.name}
-            </h1>
-            <p className="text-cyan-400 text-sm font-mono mt-1 print:text-gray-800">
-              {personalInfo.email} &bull; {personalInfo.phone} &bull; github.com/tarun-s-aiml
-            </p>
-          </div>
-
-          {/* Education Section */}
-          <div className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 border-b border-slate-800 pb-1 print:text-black print:border-black">
-              EDUCATION
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between font-bold text-white text-sm print:text-black">
-                  <span>Bachelor of Engineering In Artificial Intelligence and Machine Learning</span>
-                  <span>March 2027 (Expected)</span>
-                </div>
-                <div className="text-xs text-slate-300 print:text-gray-700">K S Institute of Technology, Bangalore</div>
-                <div className="text-xs font-mono text-cyan-300 font-semibold print:text-black">CGPA: 7.6 (up to 6th semester)</div>
-              </div>
-
-              <div>
-                <div className="flex justify-between font-bold text-white text-sm print:text-black">
-                  <span>Pre-University (PCMC)</span>
-                  <span>2021 - 2023</span>
-                </div>
-                <div className="text-xs text-slate-300 print:text-gray-700">Christ Junior College, Bangalore</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Projects Section */}
-          <div className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 border-b border-slate-800 pb-1 print:text-black print:border-black">
-              PROJECTS
-            </h2>
-            <div className="space-y-4">
-              {projects.map((proj) => (
-                <div key={proj.id} className="space-y-1">
-                  <h3 className="font-bold text-white text-sm print:text-black">
-                    &bull; {proj.title}
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed pl-3 print:text-gray-800">
-                    {proj.shortDesc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Skills Section */}
-          <div className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 border-b border-slate-800 pb-1 print:text-black print:border-black">
-              TECHNICAL SKILLS
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300 print:text-black">
-              <div><strong>Programming:</strong> Python, Java</div>
-              <div><strong>Concepts:</strong> Machine Learning, Security Systems</div>
-              <div><strong>Tools:</strong> VS Code, Git, Excel, Power BI</div>
-              <div><strong>Database:</strong> SQL</div>
-            </div>
-          </div>
-
-          {/* Certifications Section */}
-          <div className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 border-b border-slate-800 pb-1 print:text-black print:border-black">
-              CERTIFICATIONS
-            </h2>
-            <ul className="list-disc list-inside text-xs text-slate-300 space-y-1 print:text-black">
-              <li>Artificial Intelligence Masterclass - Novitech Learning Hub</li>
-              <li>Power BI · Data Visualization</li>
-              <li>Udemy · Python Programming Course</li>
-            </ul>
-          </div>
-
-          {/* Achievements Section */}
-          <div className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 border-b border-slate-800 pb-1 print:text-black print:border-black">
-              ACHIEVEMENTS & LEADERSHIP
-            </h2>
-            <ul className="list-disc list-inside text-xs text-slate-300 space-y-1 print:text-black">
-              <li>NCC 'A' Certificate Holder (National Cadet Corps)</li>
-              <li>Active Member of NSS (National Service Scheme)</li>
-              <li>Attended Multiple Camps and leadership activities</li>
-            </ul>
-          </div>
-
-          {/* Languages */}
-          <div className="space-y-2 pt-2">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 border-b border-slate-800 pb-1 print:text-black print:border-black">
-              LANGUAGES
-            </h2>
-            <div className="text-xs text-slate-300 print:text-black">
-              English, Kannada, Hindi
-            </div>
-          </div>
-
+        <div className="p-4 bg-white">
+          <iframe
+            src="/achievements/resume.pdf"
+            className="w-full h-[80vh]"
+            title="Tarun Resume"
+          />
         </div>
-
       </div>
     </div>
   );
