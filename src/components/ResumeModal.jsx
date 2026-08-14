@@ -7,7 +7,7 @@ export default function ResumeModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handlePrint = () => {
+  const Print = () => {
     window.print();
   };
 
@@ -86,7 +86,7 @@ ACHIEVEMENTS & LEADERSHIP
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in">
       <div className="glass-panel w-full max-w-4xl max-h-[92vh] rounded-3xl border border-cyan-500/40 shadow-2xl overflow-hidden flex flex-col">
-        
+
         {/* Top Control Bar */}
         <div className="px-6 py-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between no-print">
           <div className="flex items-center gap-2">
@@ -131,8 +131,8 @@ ACHIEVEMENTS & LEADERSHIP
         </div>
 
         {/* Formatted Resume Body Container */}
-        <div className="p-6 sm:p-10 overflow-y-auto bg-slate-950 text-slate-100 font-sans space-y-8 text-left print:bg-white print:text-black print:p-0">
-          
+        <div className="p-6 sm:p-10 overflow-y-auto print:overflow-visible bg-slate-950 text-slate-100 font-sans space-y-8 text-left print:bg-white print:text-black print:p-0">
+
           {/* Header */}
           <div className="text-center border-b border-slate-800 pb-6 print:border-black">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase print:text-black">
