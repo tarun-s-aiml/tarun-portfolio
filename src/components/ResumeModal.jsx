@@ -135,8 +135,15 @@ ACHIEVEMENTS & LEADERSHIP
           <img
             src="/resume.jpg"
             alt="Tarun Resume"
-            className="w-full h-auto object-contain"
+            style={{
+              display: "block",
+              width: "100%",
+              height: "auto",
+              maxHeight: "70vh",
+              objectFit: "contain",
+            }}
           />
+
 
         </div>
       </div>
