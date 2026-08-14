@@ -83,6 +83,8 @@ ACHIEVEMENTS & LEADERSHIP
     setTimeout(() => setCopied(false), 2000);
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in">
       <div className="glass-panel w-full max-w-4xl max-h-[92vh] rounded-3xl border border-cyan-500/40 shadow-2xl overflow-hidden flex flex-col">
