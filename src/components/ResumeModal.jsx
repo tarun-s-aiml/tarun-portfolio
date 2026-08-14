@@ -133,7 +133,7 @@ ACHIEVEMENTS & LEADERSHIP
         {/* Formatted Resume Body Container */}
         <div className="p-4 bg-white">
           <img
-            src="/achievements/resume.jpg"
+            src="/resume.jpg"
             alt="Tarun Resume"
             className="w-full h-auto object-contain"
           />
