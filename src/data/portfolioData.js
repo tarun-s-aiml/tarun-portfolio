@@ -21,7 +21,7 @@ export const skills = [
   {
     category: "Programming Languages",
     items: [
-      { name: "Python", level: 90, icon: "Code2", description: "Primary language for Data Science, AI/ML models & scripting" },
+      { name: "Java", level: 90, icon: "Code2", description: "Primary language for Data Science, AI/ML models & scripting" },
       { name: "SQL", level: 85, icon: "Database", description: "Relational Database queries, schema design & data management" },
     ]
   },
@@ -201,6 +201,30 @@ export const achievements = [
     description: "Certificate of Participation awarded to Tarun S (4th Sem AIML, KSIT) for participating in the NISVAARTH MARATHON 2K25 organized by the Department of Electronics and Communication Engineering, KSIT, in association with IEEE KSIT SB, WIE, and SPS.",
     signatories: ["B. R. Santhosh Kumar (Chair IEEE KSIT SB)", "Dr. P. N. Sudha (Chair WIE, IEEE KSIT SB)", "Dr. Dilip Kumar K. (Principal / Director)"],
     tags: ["Marathon 2K25", "IEEE KSIT", "WIE", "SPS"]
+  },
+  {
+    id: "ncb-drug-awareness",
+    title: "Say Yes to Life, No to Drugs Certificate",
+    issuer: "Narcotics Control Bureau, Ministry of Home Affairs, Government of India",
+    association: "Drug Awareness",
+    date: "6th February 2024",
+    badge: "Social Awareness",
+    image: "/achievements/ncb-drug-awareness.jpg",
+    recipient: "TARUN S",
+    description: "Certificate recognizing participation in the Say Yes to Life, No to Drugs pledge and commitment to drug awareness.",
+    tags: ["Narcotics Control Bureau", "Drug Awareness", "Government of India"]
+  },
+  {
+    id: "red-cross-blood-donation",
+    title: "Blood Donation Certificate of Appreciation",
+    issuer: "Indian Red Cross Society, Karnataka State Branch",
+    association: "Blood Donation",
+    date: "14th November 2024",
+    badge: "Community Service",
+    image: "/achievements/red-cross-blood-donation.jpg",
+    recipient: "TARUN S",
+    description: "Certificate of appreciation for donating blood and contributing towards saving precious lives.",
+    tags: ["Blood Donation", "Red Cross", "Community Service"]
   }
 ];
 
