@@ -133,21 +133,17 @@ ACHIEVEMENTS & LEADERSHIP
         </div>
 
         {/* Formatted Resume Body Container */}
-        <div className="p-4 bg-white w-full overflow-y-auto max-h-[calc(92vh-80px)]">
+        <div className="p-4 bg-white overflow-y-auto max-h-[80vh]">
           <img
             src="/resume.jpg"
             alt="Tarun Resume"
-            style={{
-              display: "block",
-              width: "100%",
-              height: "auto",
-              objectFit: "contain",
-            }}
+            className="block w-full h-auto"
           />
-
-
         </div>
+
+
       </div>
     </div>
+
   );
 }
