@@ -132,11 +132,12 @@ ACHIEVEMENTS & LEADERSHIP
 
         {/* Formatted Resume Body Container */}
         <div className="p-4 bg-white">
-          <iframe
+          <img
             src="/achievements/resume.jpg"
-            className="w-full h-[80vh]"
-            title="Tarun Resume"
+            alt="Tarun Resume"
+            className="w-full h-auto object-contain"
           />
+
         </div>
       </div>
     </div>
