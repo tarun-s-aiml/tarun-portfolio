@@ -1,69 +1,69 @@
-import React, { useState } from 'react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Skills } from './components/Skills';
-import { Experience } from './components/Experience';
-import { Projects } from './components/Projects';
-import { Certifications } from './components/Certifications';
-import { Achievements } from './components/Achievements';
-import { Education } from './components/Education';
-import { ResumeSection } from './components/ResumeSection';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
-import { CertificateModal } from './components/CertificateModal';
-import type { ModalCertificate } from './components/CertificateModal';
-import { ResumeModal } from './components/ResumeModal';
-import { certifications } from './data/certifications';
+import { useState, useEffect } from 'react';
+import BackgroundAmbient from './components/BackgroundAmbient';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import About from './components/About';
+import Skills from './components/Skills';
+import Experience from './components/Experience';
+import Projects from './components/Projects';
+import Certifications from './components/Certifications';
+import Education from './components/Education';
+import Achievements from './components/Achievements';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import ResumeModal from './components/ResumeModal';
 
-export const App: React.FC = () => {
-  const [selectedCertificate, setSelectedCertificate] = useState<ModalCertificate | null>(null);
-  const [isResumeOpen, setIsResumeOpen] = useState(false);
+export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState<boolean>(false);
 
-  const handleOpenCertByRole = (roleTitle: string) => {
-    if (roleTitle.includes('Yuva')) {
-      const yuvaCert = certifications.find(c => c.id === 'yuvaintern-nlp');
-      if (yuvaCert) setSelectedCertificate(yuvaCert);
-    } else if (roleTitle.includes('InAmigos')) {
-      const inamigosCert = certifications.find(c => c.id === 'inamigos-ai-intern');
-      if (inamigosCert) setSelectedCertificate(inamigosCert);
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
     }
-  };
+  }, [isDarkMode]);
 
   return (
-    <div className="min-h-screen bg-dark-950 text-slate-200 selection:bg-brand-indigo/30 selection:text-brand-cyan relative">
-      {/* Sticky Navigation */}
-      <Navbar onOpenResume={() => setIsResumeOpen(true)} />
+    <div className={`min-h-screen transition-colors duration-500 relative font-sans ${
+      isDarkMode ? 'bg-[#070a12] text-slate-100' : 'bg-slate-50 text-slate-900'
+    }`}>
+      
+      {/* Ambient background mesh & grid */}
+      <BackgroundAmbient isDarkMode={isDarkMode} />
 
-      {/* Main Content Sections */}
-      <main>
-        <Hero onOpenResume={() => setIsResumeOpen(true)} />
+      {/* Sticky Navigation Header */}
+      <Navbar 
+        isDarkMode={isDarkMode} 
+        setIsDarkMode={setIsDarkMode} 
+        onOpenResume={() => setIsResumeModalOpen(true)}
+      />
+
+      {/* Main Sections */}
+      <main className="relative z-10">
+        <Hero onOpenResume={() => setIsResumeModalOpen(true)} />
         <About />
         <Skills />
-        <Experience onViewCert={handleOpenCertByRole} />
+        <Experience />
         <Projects />
-        <Certifications onSelectCertificate={(cert) => setSelectedCertificate(cert)} />
-        <Achievements onSelectCertificate={(cert) => setSelectedCertificate(cert)} />
+        <Certifications />
         <Education />
-        <ResumeSection onOpenResume={() => setIsResumeOpen(true)} />
+        <Achievements />
         <Contact />
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenResume={() => setIsResumeModalOpen(true)} />
 
-      {/* Interactive Lightbox Modals */}
-      <CertificateModal
-        certificate={selectedCertificate}
-        onClose={() => setSelectedCertificate(null)}
+      {/* Dedicated Resume Lightbox Modal */}
+      <ResumeModal 
+        isOpen={isResumeModalOpen} 
+        onClose={() => setIsResumeModalOpen(false)} 
       />
 
-      <ResumeModal
-        isOpen={isResumeOpen}
-        onClose={() => setIsResumeOpen(false)}
-      />
     </div>
   );
-};
-
-export default App;
+}

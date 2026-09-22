@@ -1,250 +1,346 @@
-import React, { useState } from 'react';
-import { 
-  ArrowRight, 
-  FileText, 
-  Mail, 
-  CheckCircle2, 
-  ShieldCheck, 
-  BrainCircuit, 
-  Play, 
-  Cpu
+import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
+import {
+  ArrowRight,
+  FileText,
+  Terminal as TerminalIcon,
+  Mail,
+  Check
 } from 'lucide-react';
 import { profileData } from '../data/profile';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
+
+const TYPING_TITLES = [
+  "AI & Machine Learning Engineer",
+  "Aspiring Software Engineer",
+  "Threat Detection & Security Systems Innovator",
+  "Data Analytics & NLP Practitioner",
+  "NCC 'A' Cadet & Community Volunteer"
+];
 
 interface HeroProps {
   onOpenResume: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
-  const [activeTab, setActiveTab] = useState<'pipeline' | 'models' | 'status'>('pipeline');
-  const [testResult, setTestResult] = useState<string | null>(null);
-  const [isSimulating, setIsSimulating] = useState(false);
+export default function Hero({ onOpenResume }: HeroProps) {
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const simulateInference = () => {
-    setIsSimulating(true);
-    setTestResult(null);
-    setTimeout(() => {
-      setTestResult("Classification: Legitimate Domain (Confidence: 97.4%) • Latency: 18ms");
-      setIsSimulating(false);
-    }, 600);
+  // Interactive Terminal State
+  const [terminalTab, setTerminalTab] = useState<'profile' | 'skills' | 'projects'>('profile');
+  const [terminalInput, setTerminalInput] = useState('');
+  const [terminalLogs, setTerminalLogs] = useState<Array<{ type: 'cmd' | 'res' | 'err' | 'sys'; text: string }>>([
+    { type: 'sys', text: 'Tarun Terminal v2.0.0 [AI-ML Environment Initialized]' },
+    { type: 'sys', text: 'Type "help" or click tab files to inspect data schema.' }
+  ]);
+
+  // Typing effect hook
+  useEffect(() => {
+    const currentFullText = TYPING_TITLES[titleIndex];
+    let typingSpeed = isDeleting ? 35 : 75;
+
+    if (!isDeleting && displayText === currentFullText) {
+      typingSpeed = 2200; // Pause at end
+    } else if (isDeleting && displayText === '') {
+      setIsDeleting(false);
+      setTitleIndex((prev) => (prev + 1) % TYPING_TITLES.length);
+      typingSpeed = 400;
+    }
+
+    const timer = setTimeout(() => {
+      setDisplayText((prev) => {
+        if (isDeleting) {
+          return currentFullText.substring(0, prev.length - 1);
+        } else {
+          return currentFullText.substring(0, prev.length + 1);
+        }
+      });
+
+      if (!isDeleting && displayText === currentFullText) {
+        setIsDeleting(true);
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, titleIndex]);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText(profileData.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleTerminalSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const cmd = terminalInput.trim().toLowerCase();
+    if (!cmd) return;
+
+    const newLogs = [...terminalLogs, { type: 'cmd' as const, text: `$ ${terminalInput}` }];
+
+    switch (cmd) {
+      case 'help':
+        newLogs.push({ type: 'res', text: 'Available commands: profile, skills, projects, contact, clear' });
+        break;
+      case 'profile':
+      case 'bio':
+        newLogs.push({ type: 'res', text: `Developer: ${profileData.name} | Degree: B.E. in AIML | Institution: KSIT Bangalore | Graduation: March 2027` });
+        break;
+      case 'skills':
+        newLogs.push({ type: 'res', text: 'Languages: Java, Python, SQL | Frameworks: Machine Learning, NLP, Scikit-learn, Power BI, Git' });
+        break;
+      case 'projects':
+        newLogs.push({ type: 'res', text: '1. AI Phishing URL Detection System\n2. AI Women Safety Guardian\n3. IMDB Sentiment Analysis (88.68% accuracy)' });
+        break;
+      case 'contact':
+        newLogs.push({ type: 'res', text: `Email: ${profileData.email} | GitHub: ${profileData.github} | LinkedIn: ${profileData.linkedin}` });
+        break;
+      case 'clear':
+        setTerminalLogs([]);
+        setTerminalInput('');
+        return;
+      default:
+        newLogs.push({ type: 'err', text: `Command not recognized: "${cmd}". Type "help" for commands.` });
+    }
+
+    setTerminalLogs(newLogs);
+    setTerminalInput('');
   };
 
   return (
-    <section id="home" className="relative min-h-[92vh] flex items-center pt-28 pb-16 overflow-hidden">
-      {/* Background Subtle Gradient Blobs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-indigo/15 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-[350px] h-[350px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[300px] h-[300px] bg-brand-emerald/10 rounded-full blur-[100px] pointer-events-none" />
+    <section id="hero" className="relative min-h-[92vh] pt-32 pb-20 flex items-center justify-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b08_1px,transparent_1px),linear-gradient(to_bottom,#1e293b08_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] pointer-events-none" />
+          {/* Left Hero Column */}
+          <div className="lg:col-span-7 flex flex-col items-start space-y-6 text-left">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Hero Content */}
-          <div className="lg:col-span-7 space-y-6 text-left">
-            
-            {/* Availability Badge */}
-            <div className="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full bg-dark-900 border border-slate-700/80 shadow-inner">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-emerald"></span>
-              </span>
-              <span className="text-xs font-mono text-slate-300">
-                {profileData.status}
-              </span>
+            {/* Status Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-indigo-500/30 text-cyan-300 text-xs font-mono tracking-wide shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>{profileData.status}</span>
             </div>
 
-            {/* Main Headline */}
-            <div className="space-y-2">
-              <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-                Hello, I'm <br />
-                <span className="text-gradient-primary">
-                  {profileData.name}
-                </span>
+            {/* Main Name & Headline */}
+            <div className="space-y-2.5">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-sans">
+                {profileData.name}
               </h1>
-              <p className="text-lg sm:text-2xl font-semibold text-slate-300 flex flex-wrap items-center gap-2 pt-1">
-                <span>{profileData.headline}</span>
-                <span className="hidden sm:inline text-slate-600">|</span>
-                <span className="text-brand-cyan text-base sm:text-xl font-normal">
-                  {profileData.roleSubtitle}
-                </span>
-              </p>
+
+              {/* Dynamic Typing Role */}
+              <div className="h-10 flex items-center font-mono text-lg sm:text-2xl text-cyan-400">
+                <span className="mr-2 text-indigo-400">&gt;</span>
+                <span>{displayText}</span>
+                <span className="w-2 h-5 bg-cyan-400 ml-1 inline-block animate-pulse" />
+              </div>
             </div>
 
-            {/* Description */}
-            <p className="text-base sm:text-lg text-slate-400 max-w-2xl leading-relaxed">
+            {/* Subtitle / Intro */}
+            <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal">
               {profileData.summary}
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-3.5 pt-2">
+            {/* Quick Metrics & Pillars Preview */}
+            <div className="grid grid-cols-3 gap-3 w-full max-w-lg py-1">
+              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-center">
+                <div className="text-lg sm:text-xl font-bold font-mono text-cyan-400">10</div>
+                <div className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Tech Certifications</div>
+              </div>
+              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-center">
+                <div className="text-lg sm:text-xl font-bold font-mono text-indigo-400">03</div>
+                <div className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Core AI Projects</div>
+              </div>
+              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-center">
+                <div className="text-lg sm:text-xl font-bold font-mono text-emerald-400">06</div>
+                <div className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Extracurricular</div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3.5 pt-1">
               <a
                 href="#projects"
-                className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-indigo to-brand-cyan text-white text-sm font-semibold hover:opacity-95 transition-all shadow-lg shadow-brand-indigo/25 hover:shadow-brand-cyan/25 hover:-translate-y-0.5"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-xs uppercase tracking-wider text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 hover:from-cyan-300 hover:to-indigo-300 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <span>Explore Projects</span>
+                <span>View Projects</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
               <button
                 onClick={onOpenResume}
-                className="inline-flex items-center space-x-2 px-5 py-3 rounded-xl bg-dark-900 hover:bg-slate-800 text-slate-200 hover:text-white text-sm font-semibold border border-slate-700/90 transition-all hover:border-slate-500 hover:-translate-y-0.5 shadow-md shadow-black/30"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-xs uppercase tracking-wider text-slate-200 bg-slate-900/80 border border-slate-700/80 hover:border-indigo-500/50 hover:text-cyan-300 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <FileText className="w-4 h-4 text-brand-cyan" />
+                <FileText className="w-4 h-4 text-cyan-400" />
                 <span>View Resume</span>
               </button>
 
               <a
                 href="#contact"
-                className="inline-flex items-center space-x-2 px-5 py-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-sm font-medium border border-slate-700 transition-all hover:-translate-y-0.5"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-xs uppercase tracking-wider text-slate-300 hover:text-white bg-slate-900/40 border border-transparent hover:border-slate-800 transition-colors"
               >
-                <Mail className="w-4 h-4 text-brand-sky" />
                 <span>Contact Me</span>
               </a>
             </div>
 
-            {/* Social Links & Highlights */}
-            <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-6">
+            {/* Social Channels */}
+            <div className="flex items-center gap-3 pt-3 border-t border-slate-800/80 w-full max-w-lg">
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Socials:</span>
+
               <a
                 href={profileData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-white transition-colors group"
-                aria-label="Tarun S GitHub Profile"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/70 border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 text-xs font-mono transition-all duration-200"
+                title="GitHub Profile"
               >
-                <GithubIcon className="w-4 h-4 text-slate-500 group-hover:text-brand-cyan transition-colors" />
-                <span>github.com/tarun-s-aiml</span>
+                <GithubIcon className="w-4 h-4" />
+                <span>GitHub</span>
               </a>
 
               <a
                 href={profileData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-white transition-colors group"
-                aria-label="Tarun S LinkedIn Profile"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/70 border border-slate-800 text-slate-300 hover:text-indigo-400 hover:border-indigo-500/40 text-xs font-mono transition-all duration-200"
+                title="LinkedIn Profile"
               >
-                <LinkedinIcon className="w-4 h-4 text-slate-500 group-hover:text-brand-cyan transition-colors" />
-                <span>linkedin.com/in/tarun-s-aiml</span>
+                <LinkedinIcon className="w-4 h-4" />
+                <span>LinkedIn</span>
               </a>
 
-              <div className="flex items-center space-x-1.5 text-xs text-brand-emerald bg-brand-emerald/10 px-2.5 py-1 rounded-md border border-brand-emerald/20 font-mono">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Verified Credentials</span>
-              </div>
+              <button
+                onClick={copyEmail}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/70 border border-slate-800 text-slate-300 hover:text-emerald-400 hover:border-emerald-500/40 text-xs font-mono transition-all duration-200"
+                title="Copy Email"
+              >
+                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Mail className="w-4 h-4" />}
+                <span>{copied ? 'Copied' : 'Email'}</span>
+              </button>
             </div>
 
           </div>
 
-          {/* Right Column: Interactive Developer / AI Pipeline Interface */}
+          {/* Right Developer Terminal Window */}
           <div className="lg:col-span-5 w-full">
-            <div className="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-2xl relative glow-indigo">
-              {/* Terminal Window Header */}
-              <div className="bg-dark-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+            <div className="bg-slate-950/80 backdrop-blur-xl rounded-2xl border border-slate-800/90 shadow-2xl shadow-black/60 overflow-hidden font-mono text-xs">
+
+              {/* Window Header */}
+              <div className="bg-slate-900/90 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-rose-500/80" />
                   <div className="w-3 h-3 rounded-full bg-amber-500/80" />
                   <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                  <span className="text-xs font-mono text-slate-400 ml-2">tarun.ai.runtime</span>
+                  <span className="ml-2 text-slate-400 text-xs">tarun-dev-shell — bash</span>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <button
-                    onClick={() => setActiveTab('pipeline')}
-                    className={`px-2 py-0.5 text-[11px] font-mono rounded ${
-                      activeTab === 'pipeline' ? 'bg-slate-800 text-brand-cyan' : 'text-slate-500 hover:text-slate-300'
-                    }`}
-                  >
-                    pipeline
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('models')}
-                    className={`px-2 py-0.5 text-[11px] font-mono rounded ${
-                      activeTab === 'models' ? 'bg-slate-800 text-brand-cyan' : 'text-slate-500 hover:text-slate-300'
-                    }`}
-                  >
-                    models
-                  </button>
+                <div className="flex items-center gap-1 text-cyan-400">
+                  <TerminalIcon className="w-4 h-4" />
                 </div>
               </div>
 
-              {/* Terminal Body */}
-              <div className="p-5 font-mono text-xs space-y-4 bg-dark-900/90 text-slate-300">
-                {activeTab === 'pipeline' ? (
-                  <>
-                    <div className="space-y-1 text-slate-400">
-                      <p className="text-brand-cyan">$ tarun --inspect --runtime</p>
-                      <p className="text-emerald-400">✓ System Status: ACTIVE</p>
-                      <p className="text-slate-400">Target: Intelligent Systems & Full-Stack AI</p>
-                    </div>
+              {/* File Tabs */}
+              <div className="bg-slate-900/50 px-2 py-1.5 border-b border-slate-800 flex items-center gap-1">
+                <button
+                  onClick={() => setTerminalTab('profile')}
+                  className={`px-3 py-1 rounded-md text-xs font-mono transition-colors ${
+                    terminalTab === 'profile'
+                      ? 'bg-slate-800 text-cyan-300 border border-cyan-500/30'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  profile.json
+                </button>
+                <button
+                  onClick={() => setTerminalTab('skills')}
+                  className={`px-3 py-1 rounded-md text-xs font-mono transition-colors ${
+                    terminalTab === 'skills'
+                      ? 'bg-slate-800 text-cyan-300 border border-cyan-500/30'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  skills.ts
+                </button>
+                <button
+                  onClick={() => setTerminalTab('projects')}
+                  className={`px-3 py-1 rounded-md text-xs font-mono transition-colors ${
+                    terminalTab === 'projects'
+                      ? 'bg-slate-800 text-cyan-300 border border-cyan-500/30'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  deployments.sh
+                </button>
+              </div>
 
-                    <div className="bg-dark-950 p-3.5 rounded-xl border border-slate-800/80 space-y-2">
-                      <div className="text-[11px] text-slate-400 flex items-center justify-between border-b border-slate-800 pb-1.5">
-                        <span className="text-slate-300 font-semibold">Active Engineering Models</span>
-                        <span className="text-brand-cyan">3 Production Pipelines</span>
-                      </div>
-                      
-                      <div className="space-y-2 text-[11px]">
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-300 flex items-center gap-1.5">
-                            <ShieldCheck className="w-3.5 h-3.5 text-brand-cyan" />
-                            Phishing URL Classifier
-                          </span>
-                          <span className="text-brand-emerald bg-brand-emerald/10 px-1.5 py-0.5 rounded text-[10px]">Real-Time ML</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-300 flex items-center gap-1.5">
-                            <Cpu className="w-3.5 h-3.5 text-brand-indigo" />
-                            Women Safety Guardian
-                          </span>
-                          <span className="text-brand-indigo bg-brand-indigo/10 px-1.5 py-0.5 rounded text-[10px]">Emergency Trigger</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-300 flex items-center gap-1.5">
-                            <BrainCircuit className="w-3.5 h-3.5 text-brand-sky" />
-                            IMDB Sentiment Analysis
-                          </span>
-                          <span className="text-brand-sky bg-brand-sky/10 px-1.5 py-0.5 rounded text-[10px]">88.68% Accuracy</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Interactive simulation action */}
-                    <div className="pt-1">
-                      <button
-                        onClick={simulateInference}
-                        disabled={isSimulating}
-                        className="w-full py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center justify-center space-x-2 text-xs transition-colors"
-                      >
-                        <Play className={`w-3.5 h-3.5 text-brand-cyan ${isSimulating ? 'animate-spin' : ''}`} />
-                        <span>{isSimulating ? 'Running Feature Extraction...' : 'Test Phishing Feature Inference'}</span>
-                      </button>
-                      {testResult && (
-                        <div className="mt-2 p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-[11px] animate-fadeIn">
-                          {testResult}
-                        </div>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <div className="space-y-2">
-                    <p className="text-brand-cyan">$ tarun --list-stack</p>
-                    <div className="bg-dark-950 p-3 rounded-lg border border-slate-800 space-y-1.5 text-[11px]">
-                      <p><span className="text-brand-indigo font-bold">Languages:</span> Java, Python, SQL</p>
-                      <p><span className="text-brand-cyan font-bold">AI/ML:</span> Supervised ML, Deep Learning, NLP</p>
-                      <p><span className="text-brand-emerald font-bold">Analytics:</span> Power BI, EDA, Scikit-learn</p>
-                      <p><span className="text-slate-400 font-bold">Education:</span> KSIT (B.E. AIML, 2027)</p>
-                    </div>
+              {/* Code / Content Area */}
+              <div className="p-4 min-h-[250px] max-h-[310px] overflow-y-auto space-y-2 text-left bg-slate-950/60">
+                {terminalTab === 'profile' && (
+                  <div className="text-slate-300 space-y-1">
+                    <span className="text-slate-500">// Developer Profile Metadata</span>
+                    <pre className="text-cyan-300/90 whitespace-pre-wrap font-mono text-[11px] leading-relaxed">
+{JSON.stringify({
+  name: profileData.name,
+  role: profileData.headline,
+  focus: profileData.roleSubtitle,
+  institution: "K S Institute of Technology",
+  degree: "B.E. Artificial Intelligence & Machine Learning",
+  graduation: "March 2027",
+  location: profileData.location
+}, null, 2)}
+                    </pre>
                   </div>
                 )}
 
-                {/* Footer status line */}
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-500">
-                  <span>Location: Bangalore, India</span>
-                  <span>Branch: AIML 2027</span>
-                </div>
+                {terminalTab === 'skills' && (
+                  <div className="text-slate-300 space-y-1.5 font-mono text-xs">
+                    <div className="text-slate-500">// Technical Stack Registry</div>
+                    <div><span className="text-indigo-400">export const</span> <span className="text-cyan-300">coreLanguages</span> = [<span className="text-emerald-300">"Java"</span>, <span className="text-emerald-300">"Python"</span>, <span className="text-emerald-300">"SQL"</span>];</div>
+                    <div><span className="text-indigo-400">export const</span> <span className="text-cyan-300">aiDomains</span> = [<span className="text-emerald-300">"Machine Learning"</span>, <span className="text-emerald-300">"NLP"</span>, <span className="text-emerald-300">"Deep Learning"</span>];</div>
+                    <div><span className="text-indigo-400">export const</span> <span className="text-cyan-300">devTools</span> = [<span className="text-emerald-300">"VS Code"</span>, <span className="text-emerald-300">"Git"</span>, <span className="text-emerald-300">"Power BI"</span>, <span className="text-emerald-300">"Excel"</span>];</div>
+                    <div className="pt-2 text-slate-500">// Core Competency: Rapid Real-World Prototyping</div>
+                  </div>
+                )}
+
+                {terminalTab === 'projects' && (
+                  <div className="text-slate-300 space-y-2 font-mono text-xs">
+                    <div className="text-slate-500">#!/bin/bash — Active Project Deployments</div>
+                    <div className="text-emerald-400">&gt; phishing_url_detector.py ... [STATUS: READY]</div>
+                    <div className="text-slate-400 pl-3">→ Real-time URL lexical feature extraction & ML classification.</div>
+                    <div className="text-emerald-400 pt-1">&gt; women_safety_guardian.py ... [STATUS: READY]</div>
+                    <div className="text-slate-400 pl-3">→ AI contextual threat detection & rapid emergency triggers.</div>
+                    <div className="text-emerald-400 pt-1">&gt; imdb_sentiment_nlp.py ... [88.68% ACCURACY]</div>
+                  </div>
+                )}
+
+                {/* Console Log History */}
+                {terminalLogs.length > 0 && (
+                  <div className="pt-2.5 border-t border-slate-800/80 space-y-1">
+                    {terminalLogs.map((log, i) => (
+                      <div key={i} className={`text-xs ${
+                        log.type === 'cmd' ? 'text-cyan-300 font-semibold' :
+                        log.type === 'err' ? 'text-rose-400' :
+                        log.type === 'sys' ? 'text-slate-400 italic' :
+                        'text-emerald-300 whitespace-pre-wrap'
+                      }`}>
+                        {log.text}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
+
+              {/* Terminal Interactive Prompt */}
+              <form onSubmit={handleTerminalSubmit} className="bg-slate-900/90 px-4 py-2 border-t border-slate-800 flex items-center gap-2">
+                <span className="text-cyan-400 font-bold">$</span>
+                <input
+                  type="text"
+                  value={terminalInput}
+                  onChange={(e) => setTerminalInput(e.target.value)}
+                  placeholder="Type 'help', 'profile', 'skills', or 'projects'..."
+                  className="w-full bg-transparent border-none outline-none text-slate-200 font-mono text-xs placeholder:text-slate-500"
+                />
+              </form>
+
             </div>
           </div>
 
@@ -252,4 +348,4 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
       </div>
     </section>
   );
-};
+}

@@ -1,206 +1,184 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, ChevronRight, Sparkles } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Sun, Moon, FileText, Menu, X, Terminal } from 'lucide-react';
 import { profileData } from '../data/profile';
 
 interface NavbarProps {
+  isDarkMode: boolean;
+  setIsDarkMode: (val: boolean) => void;
   onOpenResume: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [scrolled, setScrolled] = useState(false);
+export default function Navbar({ isDarkMode, setIsDarkMode, onOpenResume }: NavbarProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Certifications', href: '#certifications' },
-    { label: 'Education', href: '#education' },
-    { label: 'Achievements', href: '#achievements' },
-    { label: 'Contact', href: '#contact' },
+  const navLinks = [
+    { name: 'Home', href: '#hero' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Certifications', href: '#certifications' },
+    { name: 'Education', href: '#education' },
+    { name: 'Achievements', href: '#achievements' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 20);
 
-      const sections = navItems.map(item => item.href.substring(1));
-      const scrollPosition = window.scrollY + 120;
+      const sections = navLinks.map(link => link.href.substring(1));
+      const scrollPosition = window.scrollY + 200;
 
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
-            break;
-          }
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    setIsOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-dark-950/85 backdrop-blur-xl border-b border-slate-800/80 shadow-lg shadow-black/40 py-3' 
-          : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-3.5 transition-all duration-300">
+      <div className={`max-w-7xl mx-auto rounded-2xl transition-all duration-300 ${
+        isScrolled 
+          ? (isDarkMode 
+              ? 'bg-slate-900/80 backdrop-blur-xl border border-slate-800/90 shadow-xl shadow-black/40 px-5 py-2.5' 
+              : 'bg-white/85 backdrop-blur-xl border border-slate-200/90 shadow-lg px-5 py-2.5')
+          : 'bg-transparent px-3 py-2'
+      }`}>
         <div className="flex items-center justify-between">
-          {/* Logo / Name */}
-          <a 
-            href="#home"
-            className="flex items-center space-x-2.5 group focus:outline-none focus:ring-2 focus:ring-brand-cyan rounded-lg p-1"
-          >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-indigo via-brand-cyan to-brand-emerald flex items-center justify-center font-mono font-bold text-white shadow-md shadow-brand-indigo/30 group-hover:scale-105 transition-transform">
-              TS
+          
+          {/* Brand */}
+          <a href="#hero" className="flex items-center gap-3 group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-sky-400 p-[1.5px] shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+              <div className={`w-full h-full rounded-[10px] flex items-center justify-center ${
+                isDarkMode ? 'bg-slate-950' : 'bg-slate-900'
+              }`}>
+                <Terminal className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform duration-300" />
+              </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-base tracking-tight text-white group-hover:text-brand-cyan transition-colors">
+              <span className="font-bold text-base tracking-wide flex items-center gap-1.5 font-sans">
                 {profileData.name}
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               </span>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">
-                AI / ML Engineer
+              <span className="text-[10px] font-mono text-cyan-400/90 -mt-0.5 tracking-wider uppercase">
+                AI & ML Engineer
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center space-x-1 lg:space-x-1.5" aria-label="Main Navigation">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.href.substring(1);
+          <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md ${
+            isDarkMode ? 'bg-slate-900/60 border-slate-800/80' : 'bg-slate-100/80 border-slate-200'
+          }`}>
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1);
               return (
                 <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  }}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                  key={link.name}
+                  href={link.href}
+                  className={`px-3.5 py-1 text-xs font-medium rounded-full transition-all duration-200 ${
                     isActive
-                      ? 'text-white bg-slate-800/90 shadow-sm border border-slate-700/80'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                      ? (isDarkMode 
+                          ? 'text-cyan-300 bg-indigo-500/20 border border-indigo-500/30 shadow-sm' 
+                          : 'text-indigo-700 bg-indigo-100 border border-indigo-200 shadow-sm font-semibold')
+                      : (isDarkMode ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60')
                   }`}
                 >
-                  {item.label}
+                  {link.name}
                 </a>
               );
             })}
           </nav>
 
-          {/* Action Buttons */}
-          <div className="hidden sm:flex items-center space-x-3">
+          {/* Actions */}
+          <div className="hidden sm:flex items-center gap-3">
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 rounded-xl border transition-all duration-200 ${
+                isDarkMode 
+                  ? 'bg-slate-900/80 border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40' 
+                  : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-indigo-600'
+              }`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
             <button
               onClick={onOpenResume}
-              className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-lg bg-dark-900 hover:bg-slate-800 text-slate-200 hover:text-white text-xs font-medium border border-slate-700/80 transition-all hover:border-brand-cyan/50 focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 hover:from-cyan-300 hover:to-indigo-300 rounded-xl shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/35 hover:-translate-y-0.5 transition-all duration-200"
             >
-              <FileText className="w-3.5 h-3.5 text-brand-cyan" />
+              <FileText className="w-3.5 h-3.5" />
               <span>View Resume</span>
             </button>
-            <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('#contact');
-              }}
-              className="inline-flex items-center space-x-1 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-brand-indigo to-brand-cyan text-white text-xs font-medium hover:opacity-90 transition-opacity shadow-md shadow-brand-indigo/20"
-            >
-              <span>Get In Touch</span>
-              <ChevronRight className="w-3 h-3" />
-            </a>
           </div>
 
-          {/* Mobile Hamburger Button */}
-          <div className="flex xl:hidden items-center space-x-2">
+          {/* Mobile Menu Button */}
+          <div className="flex xl:hidden items-center gap-2">
             <button
-              onClick={onOpenResume}
-              className="sm:hidden inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200 text-xs border border-slate-700"
-              aria-label="View Resume"
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 rounded-lg border ${
+                isDarkMode ? 'bg-slate-900/80 border-slate-800 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-700'
+              }`}
+              aria-label="Toggle theme"
             >
-              <FileText className="w-3 h-3 text-brand-cyan" />
-              <span>Resume</span>
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-              aria-label="Toggle navigation menu"
-              aria-expanded={isOpen}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`p-2 rounded-lg border ${
+                isDarkMode ? 'bg-slate-900/80 border-slate-800 text-slate-200' : 'bg-slate-100 border-slate-200 text-slate-800'
+              }`}
+              aria-label="Toggle mobile menu"
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
+
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {isOpen && (
-        <div className="xl:hidden border-b border-slate-800 bg-dark-950/95 backdrop-blur-2xl px-4 pt-3 pb-6 space-y-1.5 shadow-2xl">
-          <div className="grid grid-cols-2 gap-1.5 py-2">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.href.substring(1);
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  }}
-                  className={`px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
-                    isActive
-                      ? 'bg-gradient-to-r from-brand-indigo/20 to-brand-cyan/20 text-brand-cyan border border-brand-cyan/30'
-                      : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
-                  }`}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </div>
-          <div className="pt-3 border-t border-slate-800/80 flex flex-col space-y-2">
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                onOpenResume();
-              }}
-              className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700"
-            >
-              <FileText className="w-4 h-4 text-brand-cyan" />
-              <span>View Verified Resume</span>
-            </button>
+      {/* Mobile Menu Drawer */}
+      {mobileMenuOpen && (
+        <div className={`xl:hidden mt-2.5 p-4 rounded-2xl border backdrop-blur-2xl flex flex-col gap-1.5 shadow-2xl animate-in fade-in slide-in-from-top-3 ${
+          isDarkMode ? 'bg-slate-950/95 border-slate-800 text-slate-200' : 'bg-white/95 border-slate-200 text-slate-800'
+        }`}>
+          {navLinks.map((link) => (
             <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('#contact');
-              }}
-              className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-indigo to-brand-cyan text-white text-xs font-medium text-center shadow-lg shadow-brand-indigo/20"
+              key={link.name}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-colors ${
+                activeSection === link.href.substring(1)
+                  ? (isDarkMode ? 'bg-indigo-500/20 text-cyan-300' : 'bg-indigo-100 text-indigo-700 font-semibold')
+                  : (isDarkMode ? 'hover:bg-slate-900 text-slate-300' : 'hover:bg-slate-100 text-slate-700')
+              }`}
             >
-              <Sparkles className="w-4 h-4" />
-              <span>Contact Tarun</span>
+              {link.name}
             </a>
-          </div>
+          ))}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenResume();
+            }}
+            className="flex items-center justify-center gap-2 w-full mt-2 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 rounded-xl shadow-md"
+          >
+            <FileText className="w-3.5 h-3.5" />
+            <span>View & Download Resume</span>
+          </button>
         </div>
       )}
     </header>
   );
-};
+}

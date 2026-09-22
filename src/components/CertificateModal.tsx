@@ -1,30 +1,31 @@
-import React, { useEffect } from 'react';
-import { X, ExternalLink, Award, Calendar, Hash, Building2 } from 'lucide-react';
+import { useEffect } from 'react';
+import { X, ExternalLink, Award, Calendar, Hash, CheckCircle2, Download } from 'lucide-react';
 
-export interface ModalCertificate {
+export interface CertificateModalData {
   title: string;
   issuer: string;
-  date: string;
   category?: string;
+  date?: string;
   credentialId?: string;
   image: string;
   link?: string;
-  description: string;
+  description?: string;
   skills?: string[];
-  badge?: string;
+  affiliation?: string;
 }
 
 interface CertificateModalProps {
-  certificate: ModalCertificate | null;
+  certificate: CertificateModalData | null;
+  isOpen: boolean;
   onClose: () => void;
 }
 
-export const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, onClose }) => {
+export default function CertificateModal({ certificate, isOpen, onClose }: CertificateModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    if (certificate) {
+    if (isOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     }
@@ -32,119 +33,146 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ certificate,
       document.body.style.overflow = 'unset';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [certificate, onClose]);
+  }, [isOpen, onClose]);
 
-  if (!certificate) return null;
+  if (!isOpen || !certificate) return null;
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-dark-950/85 backdrop-blur-md transition-opacity duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={certificate.title}
     >
       <div 
-        className="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto glass-card rounded-2xl border border-slate-700/80 shadow-2xl p-6 sm:p-8"
+        className="relative w-full max-w-4xl bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] text-left"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-          aria-label="Close dialog"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/60">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-indigo-500/20 border border-indigo-500/30 text-cyan-300">
+              <Award className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-bold text-white line-clamp-1 font-sans">
+                {certificate.title}
+              </h3>
+              <p className="text-xs text-slate-400 font-mono">
+                {certificate.issuer}
+              </p>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Certificate Image View */}
-          <div className="lg:col-span-7 bg-dark-950 rounded-xl overflow-hidden border border-slate-800 p-2 flex items-center justify-center shadow-inner">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+            aria-label="Close modal"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Modal Body */}
+        <div className="overflow-y-auto p-6 space-y-6">
+          {/* Certificate Image Preview */}
+          <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 flex items-center justify-center group">
             <img
               src={certificate.image}
-              alt={`${certificate.title} Certificate Document`}
-              className="w-full h-auto max-h-[60vh] object-contain rounded-lg"
-              loading="lazy"
+              alt={certificate.title}
+              className="max-h-[55vh] w-auto object-contain mx-auto transition-transform duration-300 group-hover:scale-[1.01]"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/certificates/novitech-ai.png';
+              }}
             />
           </div>
 
-          {/* Certificate Details */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-5">
-            <div>
-              <div className="flex items-center space-x-2 text-xs font-mono tracking-wide text-brand-cyan uppercase bg-brand-cyan/10 px-3 py-1 rounded-full w-fit border border-brand-cyan/20">
-                <Award className="w-3.5 h-3.5" />
-                <span>{certificate.category || certificate.badge || "Verified Credential"}</span>
+          {/* Details Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
+            {certificate.category && (
+              <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                <span className="text-slate-400 block text-[10px] uppercase">Category</span>
+                <span className="text-cyan-300 font-semibold text-xs">{certificate.category}</span>
               </div>
-
-              <h3 className="text-xl sm:text-2xl font-bold text-white mt-3 leading-snug">
-                {certificate.title}
-              </h3>
-
-              <div className="flex items-center space-x-2 text-slate-300 mt-2">
-                <Building2 className="w-4 h-4 text-brand-indigo" />
-                <span className="text-sm font-medium">{certificate.issuer}</span>
+            )}
+            {certificate.date && (
+              <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                <span className="text-slate-400 block text-[10px] uppercase">Issue Date</span>
+                <span className="text-slate-200 font-semibold text-xs flex items-center gap-1.5 mt-0.5">
+                  <Calendar className="w-3.5 h-3.5 text-indigo-400" />
+                  {certificate.date}
+                </span>
               </div>
-
-              <div className="flex items-center space-x-2 text-slate-400 text-xs mt-1">
-                <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                <span>Issued / Completed: {certificate.date}</span>
+            )}
+            {certificate.credentialId && (
+              <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 sm:col-span-2">
+                <span className="text-slate-400 block text-[10px] uppercase">Credential / Verification ID</span>
+                <span className="text-emerald-300 font-semibold text-xs flex items-center gap-1.5 mt-0.5">
+                  <Hash className="w-3.5 h-3.5 text-emerald-400" />
+                  {certificate.credentialId}
+                </span>
               </div>
-
-              {certificate.credentialId && (
-                <div className="flex items-center space-x-2 text-slate-300 text-xs mt-2 bg-dark-950 px-3 py-1.5 rounded-lg border border-slate-800 font-mono">
-                  <Hash className="w-3.5 h-3.5 text-brand-cyan" />
-                  <span className="truncate">Credential ID: {certificate.credentialId}</span>
-                </div>
-              )}
-
-              <p className="text-sm text-slate-300 mt-4 leading-relaxed bg-dark-850/50 p-3.5 rounded-xl border border-slate-800/60">
-                {certificate.description}
-              </p>
-
-              {certificate.skills && certificate.skills.length > 0 && (
-                <div className="mt-4">
-                  <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-2">
-                    Verified Competencies:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {certificate.skills.map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs px-2.5 py-0.5 rounded-md bg-brand-indigo/10 text-brand-sky border border-brand-indigo/20"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row gap-3">
-              {certificate.link && (
-                <a
-                  href={certificate.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-indigo to-brand-cyan text-white text-sm font-medium hover:opacity-95 transition-opacity shadow-lg shadow-brand-indigo/20"
-                >
-                  <span>Verify Credential</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              )}
-              <a
-                href={certificate.image}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium transition-colors border border-slate-700"
-              >
-                <span>Full Image</span>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
+            )}
+            {certificate.affiliation && (
+              <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 sm:col-span-2">
+                <span className="text-slate-400 block text-[10px] uppercase">Affiliation / Authority</span>
+                <span className="text-slate-200 font-semibold text-xs mt-0.5 block">{certificate.affiliation}</span>
+              </div>
+            )}
           </div>
+
+          {/* Description */}
+          {certificate.description && (
+            <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              {certificate.description}
+            </div>
+          )}
+
+          {/* Skills Tags */}
+          {certificate.skills && certificate.skills.length > 0 && (
+            <div className="space-y-2">
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+                Validated Competencies:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {certificate.skills.map((skill, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-mono text-cyan-300"
+                  >
+                    <CheckCircle2 className="w-3 h-3 text-cyan-400" />
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer Actions */}
+        <div className="px-6 py-4 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between gap-3">
+          <a
+            href={certificate.image}
+            download={`${certificate.title.toLowerCase().replace(/\s+/g, '-')}-certificate.png`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold uppercase tracking-wider transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            <span>Open High-Res</span>
+          </a>
+
+          {certificate.link && (
+            <a
+              href={certificate.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 hover:from-cyan-300 hover:to-indigo-300 text-xs font-semibold uppercase tracking-wider shadow-md transition-all"
+            >
+              <span>Verify Online</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          )}
         </div>
       </div>
     </div>
   );
-};
+}
