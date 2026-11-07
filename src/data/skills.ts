@@ -13,59 +13,58 @@ export interface SkillCategory {
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Programming",
+    title: "Programming Languages",
     iconName: "Code",
-    description: "Languages used for core algorithms, object-oriented systems, and data pipelines.",
+    description: "Languages used for machine learning models, backend workflows, and relational data querying.",
     skills: [
-      { name: "Java", tag: "Primary" },
-      { name: "Python", tag: "ML & Scripting" },
-      { name: "SQL", tag: "Relational DBs" }
+      { name: "Python", tag: "Primary / AI & ML" },
+      { name: "SQL", tag: "Relational DBs & Queries" },
+      { name: "Java", tag: "OOP & Systems" }
     ]
   },
   {
-    title: "Machine Learning & AI",
+    title: "AI, Machine Learning & NLP",
     iconName: "BrainCircuit",
-    description: "Model building, statistical analysis, and applied neural architectures.",
+    description: "Model building, statistical analysis, text analytics, and predictive architectures.",
     skills: [
-      { name: "Machine Learning", tag: "Supervised & Unsupervised" },
+      { name: "Machine Learning", tag: "Classification & Supervised" },
       { name: "Deep Learning", tag: "Neural Networks" },
-      { name: "Natural Language Processing (NLP)", tag: "Text Classification & Sentiment" },
-      { name: "Generative AI", tag: "LLMs & Tool Evaluation" }
+      { name: "Natural Language Processing (NLP)", tag: "Sentiment & Text Classification" },
+      { name: "Scikit-Learn", tag: "Pipeline & Evaluation" }
     ]
   },
   {
-    title: "Data & Analytical Concepts",
+    title: "Data Concepts & Engineering",
     iconName: "Layers",
-    description: "End-to-end data workflows from raw ingestion to model verification.",
+    description: "End-to-end data processing pipelines from ingestion to evaluation.",
     skills: [
-      { name: "Data Preprocessing", tag: "Data Cleaning" },
-      { name: "Exploratory Data Analysis (EDA)", tag: "Statistical Patterns" },
-      { name: "Feature Extraction & Engineering", tag: "TF-IDF & Lexical Features" },
+      { name: "Data Preprocessing", tag: "Cleaning & Normalization" },
+      { name: "Exploratory Data Analysis (EDA)", tag: "Pattern Discovery" },
+      { name: "Feature Extraction", tag: "Lexical & TF-IDF" },
       { name: "Model Evaluation", tag: "Metrics & Validation" }
     ]
   },
   {
-    title: "Tools & Platforms",
+    title: "Developer Tools & Analytics",
     iconName: "Terminal",
-    description: "Developer workflows, version control, and data visualization software.",
+    description: "Modern developer environments, version control systems, and enterprise business intelligence tools.",
     skills: [
       { name: "Git", tag: "Version Control" },
-      { name: "GitHub", tag: "Collaboration" },
+      { name: "GitHub", tag: "Collaboration & Repos" },
       { name: "VS Code", tag: "Primary IDE" },
       { name: "Power BI", tag: "Dashboards & DAX" },
-      { name: "Microsoft Excel", tag: "Analysis & Reporting" }
+      { name: "Microsoft Excel", tag: "Analytics & Reporting" }
     ]
   },
   {
-    title: "Professional & Soft Skills",
+    title: "Soft Skills & Leadership",
     iconName: "Users",
-    description: "Leadership and collaborative abilities verified through NCC & NSS service.",
+    description: "Collaboration and leadership demonstrated through NCC Air Wing service, NSS, and student engineering teamwork.",
     skills: [
-      { name: "Leadership", tag: "NCC Cadet & Teams" },
-      { name: "Discipline", tag: "Air Wing Training" },
-      { name: "Teamwork", tag: "Project Collaboration" },
-      { name: "Communication", tag: "Technical Documentation" },
-      { name: "Problem-Solving", tag: "Real-world Engineering" }
+      { name: "Leadership", tag: "NCC Cadet & Project Lead" },
+      { name: "Teamwork", tag: "Collaborative Engineering" },
+      { name: "Communication", tag: "Technical & Cross-Functional" },
+      { name: "Problem-Solving", tag: "Real-world Practical Focus" }
     ]
   }
 ];

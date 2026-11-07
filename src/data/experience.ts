@@ -12,14 +12,29 @@ export interface ExperienceItem {
 
 export const experiences: ExperienceItem[] = [
   {
+    role: "Software Development Intern",
+    organization: "Cognifyz IT Solutions Pvt. Ltd.",
+    type: "Internship",
+    duration: "05 Oct 2026 – 05 Nov 2026",
+    location: "Remote, India",
+    description: "Built modular Python software applications, implemented persistent data management workflows, and executed unit test validation.",
+    bullets: [
+      "Developed Python projects, including CRUD task managers with file I/O persistence.",
+      "Performed input validation and error handling for missing or corrupted data, and unit tests for core modules.",
+      "Engineered clean code routines adhering to object-oriented principles, modular separation of concerns, and robust exception handling."
+    ],
+    technologies: ["Python", "CRUD Architecture", "File I/O", "Data Validation", "Unit Testing", "Error Handling"],
+    certificateRef: "Intern ID: CTI/A1/C426443 | Completion Date: 05/11/2026"
+  },
+  {
     role: "AI/ML Intern",
     organization: "Yuva Intern",
     type: "Internship",
     duration: "Tenure Completed 2026",
-    location: "Remote",
+    location: "Remote, India",
     description: "Specialized in Natural Language Processing and text analytics pipelines for sentiment classification.",
     bullets: [
-      "Developed an NLP-based sentiment classification model using the IMDB movie review dataset, achieving 88.68% test accuracy.",
+      "Developed an NLP-based sentiment classification model using the IMDB movie review dataset, achieving 92.68% test accuracy.",
       "Performed data preprocessing, exploratory data analysis (EDA), and text feature extraction to optimize model performance.",
       "Conducted extensive model evaluation and error analysis to ensure robust predictions across diverse sentiment expressions."
     ],
@@ -31,7 +46,7 @@ export const experiences: ExperienceItem[] = [
     organization: "InAmigos Foundation",
     type: "Internship",
     duration: "August 2026",
-    location: "Remote",
+    location: "Remote, India",
     description: "Evaluated practical applications of state-of-the-art AI systems and engineered social-impact solutions.",
     bullets: [
       "Researched and evaluated AI tools such as ChatGPT, Microsoft Copilot, and Google Gemini, analyzing practical applications across education, productivity, design, and communication.",

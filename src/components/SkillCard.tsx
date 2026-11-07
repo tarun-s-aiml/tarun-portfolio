@@ -32,14 +32,16 @@ export default function SkillCard({ category }: SkillCardProps) {
   };
 
   return (
-    <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl p-6 border border-slate-800/80 hover:border-indigo-500/40 transition-all duration-300 flex flex-col justify-between space-y-4 group">
+    <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-6 border border-slate-800/80 hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group text-left">
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 group-hover:scale-105 transition-transform duration-200">
+          <div className="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700/60 shadow-md group-hover:scale-105 transition-transform duration-200">
             {getIcon(category.iconName)}
           </div>
           <div>
-            <h3 className="text-base font-bold text-white tracking-wide">{category.title}</h3>
+            <h3 className="text-base font-bold text-white tracking-wide group-hover:text-cyan-300 transition-colors">
+              {category.title}
+            </h3>
             <p className="text-xs text-slate-400">{category.description}</p>
           </div>
         </div>

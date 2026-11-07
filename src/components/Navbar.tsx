@@ -50,7 +50,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode, onOpenResume }: Navb
       <div className={`max-w-7xl mx-auto rounded-2xl transition-all duration-300 ${
         isScrolled 
           ? (isDarkMode 
-              ? 'bg-slate-900/80 backdrop-blur-xl border border-slate-800/90 shadow-xl shadow-black/40 px-5 py-2.5' 
+              ? 'bg-slate-900/85 backdrop-blur-xl border border-slate-800/90 shadow-xl shadow-black/40 px-5 py-2.5' 
               : 'bg-white/85 backdrop-blur-xl border border-slate-200/90 shadow-lg px-5 py-2.5')
           : 'bg-transparent px-3 py-2'
       }`}>
@@ -89,7 +89,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode, onOpenResume }: Navb
                   className={`px-3.5 py-1 text-xs font-medium rounded-full transition-all duration-200 ${
                     isActive
                       ? (isDarkMode 
-                          ? 'text-cyan-300 bg-indigo-500/20 border border-indigo-500/30 shadow-sm' 
+                          ? 'text-cyan-300 bg-indigo-500/20 border border-indigo-500/30 shadow-sm font-semibold' 
                           : 'text-indigo-700 bg-indigo-100 border border-indigo-200 shadow-sm font-semibold')
                       : (isDarkMode ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60')
                   }`}
@@ -160,7 +160,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode, onOpenResume }: Navb
               onClick={() => setMobileMenuOpen(false)}
               className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-colors ${
                 activeSection === link.href.substring(1)
-                  ? (isDarkMode ? 'bg-indigo-500/20 text-cyan-300' : 'bg-indigo-100 text-indigo-700 font-semibold')
+                  ? (isDarkMode ? 'bg-indigo-500/20 text-cyan-300 font-semibold' : 'bg-indigo-100 text-indigo-700 font-semibold')
                   : (isDarkMode ? 'hover:bg-slate-900 text-slate-300' : 'hover:bg-slate-100 text-slate-700')
               }`}
             >

@@ -13,6 +13,18 @@ export interface CertificationItem {
 
 export const certifications: CertificationItem[] = [
   {
+    id: "cognifyz-swe-intern",
+    title: "Software Development Intern Certificate",
+    issuer: "Cognifyz IT Solutions Pvt. Ltd.",
+    category: "Software Development",
+    date: "05 November 2026",
+    credentialId: "CTI/A1/C426443",
+    image: "/certificates/cognifyz-internship.png",
+    link: "https://www.cognifyz.com",
+    description: "Awarded for successful completion of the Software Development Internship tenure (05/10/2026 to 05/11/2026). Exhibited dedication, coordination, and attention to detail while engineering Python projects, CRUD task workflows, data validation, and core unit testing.",
+    skills: ["Software Development", "Python", "CRUD Architecture", "File I/O", "Data Validation", "Unit Testing"]
+  },
+  {
     id: "hackerrank-swe-intern",
     title: "Software Engineer Intern",
     issuer: "HackerRank",
@@ -68,7 +80,7 @@ export const certifications: CertificationItem[] = [
     credentialId: "YI/2026/184260/409356",
     image: "/certificates/yuvaintern-nlp.png",
     link: "https://yuvaintern.com",
-    description: "Formal internship certificate awarded for successful completion of Natural Language Processing and text analytics tasks, including sentiment classification on the IMDB dataset.",
+    description: "Formal internship certificate awarded for successful completion of Natural Language Processing and text analytics tasks, including sentiment classification on the IMDB dataset achieving 92.68% accuracy.",
     skills: ["Natural Language Processing", "Data Analytics", "EDA", "Text Classification"]
   },
   {
@@ -107,13 +119,13 @@ export const certifications: CertificationItem[] = [
   },
   {
     id: "udemy-java",
-    title: "Java Programming Course",
+    title: "Python Programming Course",
     issuer: "Udemy",
     category: "Programming",
     date: "Certified (Resume Listed)",
     image: "/certificates/udemy-java.png",
-    description: "In-depth course on Java fundamentals, object-oriented architecture, data structures, multithreading basics, and robust software implementation.",
-    skills: ["Java", "Object-Oriented Programming", "Data Structures", "Exception Handling"]
+    description: "In-depth course on programming fundamentals, object-oriented architecture, data structures, and robust software implementation.",
+    skills: ["Python", "Object-Oriented Programming", "Data Structures", "Exception Handling"]
   },
   {
     id: "simplilearn-powerbi-analytics",

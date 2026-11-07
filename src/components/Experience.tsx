@@ -9,7 +9,7 @@ export default function Experience() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-indigo-500/30 text-cyan-300 text-xs font-mono uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-indigo-500/30 text-cyan-300 text-xs font-mono uppercase tracking-widest shadow-sm">
             <Briefcase className="w-3.5 h-3.5" />
             <span>Work & Internships</span>
           </div>
@@ -17,12 +17,12 @@ export default function Experience() {
             Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">Internship Experience</span>
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
-            Hands-on technical roles delivering real-world NLP models, text classification systems, and applied AI evaluations.
+            Hands-on technical roles delivering Python software engineering, file I/O CRUD persistence, real-world NLP sentiment models, and applied AI evaluations.
           </p>
         </div>
 
         {/* Experience Timeline */}
-        <div className="mt-8 space-y-6">
+        <div className="mt-8 space-y-2">
           {experiences.map((exp, idx) => (
             <ExperienceItem key={idx} experience={exp} />
           ))}
